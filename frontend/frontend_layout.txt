@@ -1,0 +1,57 @@
+ai-bi-frontend/
+│
+├── public/
+│
+├── src/
+│   ├── assets/
+│   │   └── icons/
+│
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Sidebar.tsx
+│   │   │   ├── Topbar.tsx
+│   │   │   └── Layout.tsx
+│   │   │
+│   │   ├── ui/
+│   │   │   ├── Card.tsx
+│   │   │   ├── Badge.tsx
+│   │   │   ├── Table.tsx
+│   │   │   └── Button.tsx
+│   │   │
+│   │   ├── charts/
+│   │   │   ├── RevenueChart.tsx
+│   │   │   └── RefundChart.tsx
+│   │   │
+│   │   └── ai/
+│   │       ├── QueryInput.tsx
+│   │       ├── MessageBubble.tsx
+│   │       ├── TechnicalPanel.tsx
+│   │       └── ConfidenceBadge.tsx
+│
+│   ├── pages/
+│   │   ├── Dashboard.tsx
+│   │   ├── Assistant.tsx
+│   │   ├── Inventory.tsx
+│   │   ├── Suppliers.tsx
+│   │   └── Logs.tsx
+│
+│   ├── store/
+│   │   └── useAppStore.ts
+│
+│   ├── types/
+│   │   ├── api.types.ts
+│   │   ├── session.types.ts
+│   │   └── metrics.types.ts
+│
+│   ├── services/
+│   │   └── api.ts
+│
+│   ├── routes/
+│   │   └── AppRoutes.tsx
+│
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── tailwind.config.js
+├── tsconfig.json
+└── package.json
