@@ -1,16 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import Layout from "./components/layout/Layout";
+import Dashboard from "./pages/Dashboard";
+import Copilot from "./pages/Copilot";
+import { Route } from "react-router-dom";
+import Logs from "./pages/logs";
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "react-router-dom";
 function App() {
- 
-
   return (
-    <>
-      <h1> hi there !!</h1>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Layout title="Dashboard">
+              <Dashboard />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/copilot"
+          element={
+            <Layout title="Copilot">
+              <Copilot />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/logs"
+          element={
+            <Layout title="Logs">
+              <Logs />
+            </Layout>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
