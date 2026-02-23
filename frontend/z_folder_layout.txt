@@ -1,0 +1,58 @@
+src/
+│
+├── app/
+│   ├── layout/
+│   │   ├── AppLayout.tsx
+│   │   ├── Sidebar.tsx
+│   │   ├── Topbar.tsx
+│   │   └── index.ts
+│   │
+│   ├── routes/
+│   │   ├── Dashboard.tsx
+│   │   ├── Copilot.tsx
+│   │   ├── Logs.tsx
+│   │   └── index.ts
+│
+├── components/
+│   ├── ui/              (shadcn base components)
+│   │   ├── button.tsx
+│   │   ├── dropdown.tsx
+│   │   ├── dialog.tsx
+│   │   └── input.tsx
+│   │
+│   ├── chat/
+│   │   ├── ChatLayout.tsx
+│   │   ├── ChatHeader.tsx
+│   │   ├── ChatSidebar.tsx
+│   │   ├── ChatMessages.tsx
+│   │   ├── ChatMessage.tsx
+│   │   ├── ChatInput.tsx
+│   │   ├── AttachmentPreview.tsx
+│   │   └── index.ts
+│   │
+│   ├── dashboard/
+│   │   ├── StatCard.tsx
+│   │   └── index.ts
+│   │
+│   └── shared/
+│       ├── PageContainer.tsx
+│       ├── SectionHeader.tsx
+│       └── index.ts
+│
+├── store/
+│   ├── chatStore.ts
+│   └── uiStore.ts
+│
+├── hooks/
+│   ├── useAuth.ts
+│   └── useChat.ts
+│
+├── lib/
+│   ├── api.ts
+│   └── utils.ts
+│
+├── types/
+│   ├── chat.ts
+│   └── index.ts
+│
+└── main.tsx

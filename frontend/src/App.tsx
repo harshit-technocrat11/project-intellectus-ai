@@ -1,4 +1,4 @@
-import Layout from "./components/layout/Layout";
+import Layout from "./app/layout/Layout";
 import Dashboard from "./pages/Dashboard";
 import Copilot from "./pages/Copilot";
 import { Route } from "react-router-dom";
