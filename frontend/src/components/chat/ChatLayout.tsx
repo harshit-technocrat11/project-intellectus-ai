@@ -1,60 +1,51 @@
-import { useState } from "react";
+import { useChatStore } from "@/store/chatStore";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
-
-export interface ChatMessage {
-  role: "user" | "assistant";
-  content: string;
-}
+import { ChatMessage } from "@/types/chat";
 
 export default function ChatLayout() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { sessions, activeSessionId, addMessage } = useChatStore();
+
+  const activeSession = sessions.find((s) => s.id === activeSessionId);
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
 
-    // 1️⃣ Add user message immediately
     const userMessage: ChatMessage = {
       role: "user",
       content: text,
     };
 
-    setMessages((prev) => [...prev, userMessage]);
-    setLoading(true);
+    addMessage(userMessage);
 
-    try {
-      // 2️⃣ Call backend
-      const res = await fetch("http://localhost:8000/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: text }),
-      });
+    const res = await fetch("http://localhost:8000/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      // 3️⃣ Add assistant response
-      const assistantMessage: ChatMessage = {
-        role: "assistant",
-        content: data.reply,
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    addMessage({
+      role: "assistant",
+      content: data.reply,
+    });
   };
+
+  if (!activeSession) {
+    return (
+      <div className="flex items-center justify-center h-full text-muted-foreground">
+        Create or select a chat
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full">
       <ChatHeader />
-      <ChatMessages messages={messages} loading={loading} />
-      <ChatInput onSend={sendMessage} loading={loading} />
+      <ChatMessages messages={activeSession.messages} />
+      <ChatInput onSend={sendMessage} />
     </div>
   );
 }

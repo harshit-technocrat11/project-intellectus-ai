@@ -37,6 +37,7 @@ ai-bi-frontend/
 │
 │   ├── store/
 │   │   └── useAppStore.ts
+│   │   └── ChatStore.ts
 │
 │   ├── types/
 │   │   ├── api.types.ts
