@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import  type { ChatMessage } from "./ChatLayout";
+import type { ChatMessage } from "@/types/chat.ts";
+
 
 interface Props {
   messages: ChatMessage[];

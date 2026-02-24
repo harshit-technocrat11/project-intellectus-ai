@@ -2,7 +2,7 @@ import { useChatStore } from "@/store/chatStore";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
-import { ChatMessage } from "@/types/chat";
+import type { ChatMessage } from "@/types/chat";
 
 export default function ChatLayout() {
   const { sessions, activeSessionId, addMessage } = useChatStore();
