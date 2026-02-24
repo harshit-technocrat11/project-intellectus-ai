@@ -1,14 +1,25 @@
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Menu } from "lucide-react";
 
-export default function Topbar({ title }: { title: string }) {
+interface TopbarProps {
+  collapsed: boolean;
+  setCollapsed: (value: boolean) => void;
+}
+
+export default function Topbar({ collapsed, setCollapsed }: TopbarProps) {
   return (
-    <header className="h-14 border-b bg-background flex items-center justify-between px-6">
-      <div className="flex items-center gap-3">
-        <SidebarTrigger className="h-8 w-8 text-muted-foreground hover:bg-muted rounded-md" />
-        <h1 className="text-base font-semibold tracking-tight">{title}</h1>
+    <header className="h-14 border-b flex items-center justify-between px-6 bg-white">
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="p-2 rounded-md hover:bg-muted transition"
+        >
+          <Menu size={18} />
+        </button>
+
+        <h1 className="text-lg font-semibold">Workspace</h1>
       </div>
 
-      <div className="text-sm text-muted-foreground">Admin</div>
+      <div className="flex items-center gap-4">{/* future icons */}</div>
     </header>
   );
 }

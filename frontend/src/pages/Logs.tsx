@@ -1,9 +1,3 @@
-import React from 'react'
-
-function Logs() {
-  return (
-    <div>logs</div>
-  )
+export default function Logs() {
+  return <div className="bg-white border rounded-xl p-6">Logs Content</div>;
 }
-
-export default Logs

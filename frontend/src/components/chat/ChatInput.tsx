@@ -1,31 +1,20 @@
-import { useState } from "react";
+import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
-type Props = {
-  onSend: (message: string) => void;
-  loading: boolean;
-};
-
-export default function ChatInput({ onSend, loading }: Props) {
+export default function ChatInput() {
   const [value, setValue] = useState("");
 
-  const handleSend = () => {
-    if (!value.trim()) return;
-    onSend(value);
-    setValue("");
-  };
-
   return (
-    <div className="flex gap-2">
+    <div className="border-t p-4 flex gap-3">
       <Input
         placeholder="Ask something..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        disabled={loading}
       />
-      <Button onClick={handleSend} disabled={loading}>
-        Send
+      <Button>
+        <Send size={16} />
       </Button>
     </div>
   );
