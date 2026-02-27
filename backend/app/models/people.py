@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, Text, Numeric, TIMESTAMP
+from sqlalchemy import Column, String, Numeric, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 
@@ -11,12 +11,17 @@ class Employee(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
-    first_name = Column(Text, nullable=False)
-    last_name = Column(Text, nullable=False)
+    first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100), nullable=False)
 
-    department = Column(Text)
-    job_title = Column(Text)
-    location = Column(Text)
-    salary = Column(Numeric)
+    email = Column(String(255), unique=True, index=True)
+
+    department = Column(String(100), index=True)
+    job_title = Column(String(100))
+    location = Column(String(100))
+
+    salary = Column(Numeric(12, 2))
     hired_at = Column(TIMESTAMP)
-    status = Column(Text)
+    status = Column(String(20), default="active")
+
+    created_at = Column(TIMESTAMP, server_default=func.now())
