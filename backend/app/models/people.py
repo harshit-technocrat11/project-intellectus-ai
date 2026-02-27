@@ -10,7 +10,10 @@ class Employee(Base):
     __tablename__ = "employees"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    name = Column(Text, nullable=False)
+
+    first_name = Column(Text, nullable=False)
+    last_name = Column(Text, nullable=False)
+
     department = Column(Text)
     job_title = Column(Text)
     location = Column(Text)
