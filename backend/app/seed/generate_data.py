@@ -29,6 +29,7 @@ def random_past_date(days=365):
 def seed_database():
     db: Session = SessionLocal()
 
+    # SUPPLIERS
     print("Seeding suppliers...")
     suppliers = []
     locations = [
@@ -68,33 +69,42 @@ def seed_database():
 
     db.commit()
 
+    # EMPLOYEES
     print("Seeding employees...")
-    departments = ["Engineering", "Sales", "HR", "Finance"]
+    departments = [
+        "Product & Technology",
+        "Supply Chain & Operations",
+        "Marketplace Growth",
+        "Customer Experience",
+        "Finance & Compliance",
+    ]
+
+    salary_band = {
+        "Product & Technology": lambda: random.randint(90000, 160000),
+        "Supply Chain & Operations": lambda: random.randint(60000, 110000),
+        "Marketplace Growth": lambda: random.randint(70000, 130000),
+        "Customer Experience": lambda: random.randint(50000, 90000),
+        "Finance & Compliance": lambda: random.randint(80000, 140000),
+    }
 
     for _ in range(NUM_EMPLOYEES):
         dept = random.choice(departments)
 
-        base_salary = {
-            "Engineering": random.randint(80000, 160000),
-            "Sales": random.randint(60000, 120000),
-            "HR": random.randint(50000, 90000),
-            "Finance": random.randint(70000, 130000),
-        }
-
         employee = Employee(
-            name=fake.name(),
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
             department=dept,
             job_title=fake.job(),
             location=random.choice(locations),
-            salary=base_salary[dept],
+            salary=salary_band[dept](),
             hired_at=random_past_date(1000),
             status="active",
         )
 
         db.add(employee)
-
     db.commit()
 
+    # ORDERS AND TRANSACTIONS 
     print("Seeding orders + transactions...")
     for _ in range(NUM_ORDERS):
 
