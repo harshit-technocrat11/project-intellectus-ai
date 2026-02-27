@@ -5,6 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from openai import OpenAI
 
+from app.core.database import engine
+from sqlalchemy import text
+
 load_dotenv()
 
 app = FastAPI()
@@ -29,9 +32,13 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 class ChatRequest(BaseModel):
     message: str
     
+
 @app.get("/")
-async def root():
-    return {"status": "Backend running"}
+def test_db():
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT 1"))
+        return {"db_status": result.scalar()}
+
 
 @app.post("/chat")
 async def chat(req: ChatRequest):
@@ -46,4 +53,6 @@ async def chat(req: ChatRequest):
     reply = response.choices[0].message.content
 
     return {"reply": reply}
+
+
 
