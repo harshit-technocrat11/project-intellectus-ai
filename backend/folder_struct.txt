@@ -1,0 +1,19 @@
+backend/
+│
+├── app/
+│   ├── main.py
+│
+│   ├── core/
+│   │   ├── config.py
+│   │   └── database.py
+│
+│   ├── models/
+│   │   ├── base.py
+│   │   ├── business.py
+│   │   ├── people.py
+│   │   └── system.py
+│
+│   └── __init__.py
+│
+├── .env
+└── requirements.txt

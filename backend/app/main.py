@@ -8,6 +8,15 @@ from openai import OpenAI
 from app.core.database import engine
 from sqlalchemy import text
 
+from app.models.base import Base
+
+# Import models 
+import app.models.business
+import app.models.people
+import app.models.system
+
+Base.metadata.create_all(bind=engine)
+
 load_dotenv()
 
 app = FastAPI()
@@ -37,6 +46,7 @@ class ChatRequest(BaseModel):
 def test_db():
     with engine.connect() as connection:
         result = connection.execute(text("SELECT 1"))
+        print("backend running - status 200")
         return {"db_status": result.scalar()}
 
 
