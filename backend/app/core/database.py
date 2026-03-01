@@ -9,7 +9,7 @@ import os
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 if ( DATABASE_URL): 
-    print( "database url if fine !")
+    print( "database url is fine !")
 # Format:
 # postgresql+asyncpg://user:password@host:port/dbname
 

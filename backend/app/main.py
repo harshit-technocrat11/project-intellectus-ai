@@ -10,11 +10,11 @@ from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from openai import OpenAI
-
+from app.intelligence.sql_validator import validate_sql, SQLValidationError
+from fastapi import HTTPException
 from app.core.database import get_db, engine
 from app.intelligence.sql_executor import execute_sql
 from app.models.base import Base
-
 import app.models.business
 import app.models.people
 import app.models.system
@@ -60,4 +60,10 @@ async def test_db(db: AsyncSession = Depends(get_db)):
 # 🔹 Query endpoint
 @app.post("/query")
 async def query(sql: str, db: AsyncSession = Depends(get_db)):
-    return await execute_sql(db, sql)
+    
+    try:
+        safe_sql = validate_sql(sql)
+        return await execute_sql(db, safe_sql)
+    
+    except SQLValidationError as e:
+        raise HTTPException(status_code=400, detail=str(e))
