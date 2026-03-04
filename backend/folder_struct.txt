@@ -15,7 +15,7 @@ app/
 │   ├── orchestrator.py
 │   ├── router.py
 │
-├── tools/
+├── services/
 │   ├── sql/
 │   │   ├── generator.py
 │   │   ├── validator.py
@@ -29,7 +29,7 @@ app/
 │   ├── chat.py
 │   ├── query.py
 │
-├── models/          (DB ORM)
+├── db/models/          (DB ORM)
 │
 ├── monitoring/      (future)
 │   ├── metrics.py
