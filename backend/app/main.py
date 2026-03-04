@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.database import engine
 from app.db.models.base import Base
 
-from app.api.routes import query, health
+from app.api.routes import query, health,chat
 
 
 @asynccontextmanager
@@ -31,4 +31,4 @@ app.add_middleware(
 
 # Register routers
 app.include_router(health.router)
-app.include_router(query.router)
+app.include_router(chat.router)
