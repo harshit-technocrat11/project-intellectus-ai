@@ -1,52 +1,47 @@
-import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Bot, User } from "lucide-react";
+interface Props {
+  message: any;
+}
 
-export default function ChatMessage({
-  role,
-  content,
-}: {
-  role: string;
-  content: string;
-}) {
-  const isUser = role === "user";
-
+export default function ChatMessage({ message }: Props) {
   return (
     <div
-      className={cn(
-        "flex w-full gap-3 py-4",
-        isUser ? "flex-row-reverse" : "flex-row",
-      )}
+      className={`p-4 rounded-lg max-w-3xl ${
+        message.role === "user" ? "bg-blue-100 ml-auto" : "bg-gray-100"
+      }`}
     >
-      <Avatar className="h-8 w-8 border shadow-sm">
-        {isUser ? (
-          <User className="p-1.5" />
-        ) : (
-          <Bot className="p-1.5 text-blue-600" />
-        )}
-        <AvatarFallback>{isUser ? "U" : "AI"}</AvatarFallback>
-      </Avatar>
+      <p>{message.content}</p>
 
-      <div
-        className={cn(
-          "flex max-w-[80%] flex-col gap-2",
-          isUser ? "items-end" : "items-start",
-        )}
-      >
-        <div
-          className={cn(
-            "rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm transition-all",
-            isUser
-              ? "bg-blue-600 text-white rounded-tr-none"
-              : "bg-slate-100 text-slate-900 rounded-tl-none border-slate-200",
-          )}
-        >
-          {content}
-        </div>
-        <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400 px-1">
-          {isUser ? "You" : "Intellectus AI"}
-        </span>
-      </div>
+      {message.sql && (
+        <pre className="bg-black text-green-400 text-xs p-3 mt-3 rounded overflow-x-auto">
+          {message.sql}
+        </pre>
+      )}
+
+      {message.table && (
+        <table className="mt-4 border w-full text-sm">
+          <thead>
+            <tr>
+              {message.table.columns.map((col: string) => (
+                <th key={col} className="border px-2 py-1">
+                  {col}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {message.table.rows.map((row: any[], i: number) => (
+              <tr key={i}>
+                {row.map((cell, j) => (
+                  <td key={j} className="border px-2 py-1">
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

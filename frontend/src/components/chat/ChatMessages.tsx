@@ -1,54 +1,34 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { ChatMessage } from "@/types/chat.ts";
+import { useEffect, useRef } from "react";
+import { useChatStore } from "@/store/chatStore";
+import ChatMessage from "./ChatMessage";
 
+export default function ChatMessages() {
+  const sessions = useChatStore((s) => s.sessions);
+  const activeSessionId = useChatStore((s) => s.activeSessionId);
 
-interface Props {
-  messages: ChatMessage[];
-  loading: boolean;
-}
+  const activeSession = sessions.find((s) => s.id === activeSessionId);
 
-export default function ChatMessages({ messages, loading }: Props) {
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [activeSession?.messages.length]);
+
+  if (!activeSession) {
+    return (
+      <div className="flex-1 flex items-center justify-center text-gray-400">
+        Start a new conversation
+      </div>
+    );
+  }
+
   return (
-    <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
-      {messages.map((msg, index) => (
-        <div
-          key={index}
-          className={`flex items-start gap-3 ${
-            msg.role === "user" ? "justify-end" : "justify-start"
-          }`}
-        >
-          {msg.role === "assistant" && (
-            <Avatar>
-              <AvatarFallback>AI</AvatarFallback>
-            </Avatar>
-          )}
-
-          <div
-            className={`max-w-md px-4 py-2 rounded-xl text-sm ${
-              msg.role === "user"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted"
-            }`}
-          >
-            {msg.content}
-          </div>
-
-          {msg.role === "user" && (
-            <Avatar>
-              <AvatarFallback>U</AvatarFallback>
-            </Avatar>
-          )}
-        </div>
+    <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      {activeSession.messages.map((msg) => (
+        <ChatMessage key={msg.id} message={msg} />
       ))}
 
-      {loading && (
-        <div className="flex items-start gap-3">
-          <Avatar>
-            <AvatarFallback>AI</AvatarFallback>
-          </Avatar>
-          <div className="bg-muted px-4 py-2 rounded-xl text-sm">Typing...</div>
-        </div>
-      )}
+      <div ref={bottomRef} />
     </div>
   );
 }

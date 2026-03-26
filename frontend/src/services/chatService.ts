@@ -1,15 +1,18 @@
-export async function sendChat(question: string) {
-  const res = await fetch("http://localhost:8000/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ question }),
+import axios from "axios";
+
+export interface ChatResponse {
+  summary: string;
+  generated_sql: string;
+  data: {
+    columns: string[];
+    rows: any[];
+  };
+}
+
+export async function sendQuestion(question: string): Promise<ChatResponse> {
+  const response = await axios.post("http://localhost:8000/chat", {
+    question,
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch response");
-  }
-
-  return res.json();
+  return response.data;
 }

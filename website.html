@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dexter Corp — Enterprise Software Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1F4E79;
+      --accent: #5DADE2;
+      --success: #0E6655;
+      --light: #F8FAFB;
+      --text: #2D3436;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; }
+    
+    /* Modern Nav */
+    nav { 
+      background: rgba(31, 78, 121, 0.95); 
+      backdrop-filter: blur(10px);
+      padding: 1.2rem 10%; 
+      display: flex; justify-content: space-between; align-items: center; 
+      position: sticky; top: 0; z-index: 1000;
+    }
+    .logo { color: #fff; font-size: 1.5rem; font-weight: 700; text-decoration: none; }
+    .logo span { color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul li a { color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 500; opacity: 0.8; transition: 0.3s; }
+    nav ul li a:hover { opacity: 1; color: var(--accent); }
+
+    /* Hero Section */
+    .hero { 
+      background: linear-gradient(rgba(31,78,121,0.8), rgba(14,102,85,0.8)), 
+                  url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover; background-position: center;
+      padding: 160px 10% 100px; text-align: center; color: #fff;
+    }
+    .hero h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: -1px; }
+    .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 2.5rem; opacity: 0.9; }
+    
+    .btn { padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.3s; display: inline-block; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: #3498db; transform: translateY(-2px); }
+
+    /* Services Section */
+    .section { padding: 100px 10%; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; margin-top: 50px; }
+    .card { 
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.4s;
+    }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    .card img { width: 100%; height: 200px; object-fit: cover; }
+    .card-content { padding: 2rem; }
+    .card h3 { color: var(--primary); margin-bottom: 1rem; }
+
+    /* Footer */
+    footer { background: #1a1a1a; color: #ccc; padding: 60px 10%; text-align: center; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">DEXTER<span>CORP</span></a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#" class="btn btn-primary">Get Started</a>
+</nav>
+
+<section class="hero">
+  <h1>Building the Future of Enterprise Software</h1>
+  <p>Chennai's leading IT consulting firm helping 12+ global clients scale with cloud, AI, and custom engineering.</p>
+  <a href="#services" class="btn btn-primary">Explore Services</a>
+</section>
+
+<section id="services" class="section">
+  <div style="text-align: center;">
+    <h2 style="font-size: 2.5rem; color: var(--primary);">Our Expertise</h2>
+    <p>Scaling businesses since 2022</p>
+  </div>
+  
+  <div class="grid">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&w=600&q=80" alt="Data Analytics">
+      <div class="card-content">
+        <h3>Data & Analytics</h3>
+        <p>Turn your enterprise data into actionable insights with our custom-built analytics engines.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80" alt="Cloud Migration">
+      <div class="card-content">
+        <h3>Cloud Migration</h3>
+        <p>Seamless transition to AWS, Azure, or GCP with zero downtime and optimized infrastructure.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=80" alt="AI Solutions">
+      <div class="card-content">
+        <h3>AI & ML</h3>
+        <p>Implementing generative AI and predictive models to automate complex business workflows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Dexter Corp. Prestige Tech Park, OMR, Chennai.</p>
+</footer>
+
+</body>
+</html>

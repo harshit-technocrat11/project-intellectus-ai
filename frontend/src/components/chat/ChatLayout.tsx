@@ -1,51 +1,61 @@
+import { useState } from "react";
+import { sendQuestion } from "@/services/chatService";
 import { useChatStore } from "@/store/chatStore";
-import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
-import type { ChatMessage } from "@/types/chat";
 
 export default function ChatLayout() {
-  const { sessions, activeSessionId, addMessage } = useChatStore();
+  const addMessage = useChatStore((s) => s.addMessage);
+  const createSession = useChatStore((s) => s.createSession);
+  const activeSessionId = useChatStore((s) => s.activeSessionId);
 
-  const activeSession = sessions.find((s) => s.id === activeSessionId);
+  const [loading, setLoading] = useState(false);
 
-  const sendMessage = async (text: string) => {
-    if (!text.trim()) return;
+  const handleSend = async (question: string) => {
+    let sessionId = activeSessionId;
 
-    const userMessage: ChatMessage = {
+    if (!sessionId) {
+      sessionId = createSession();
+    }
+
+    const userMessage = {
+      id: crypto.randomUUID(),
       role: "user",
-      content: text,
+      content: question,
     };
 
     addMessage(userMessage);
 
-    const res = await fetch("http://localhost:8000/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text }),
-    });
+    setLoading(true);
 
-    const data = await res.json();
+    try {
+      const response = await sendQuestion(question);
 
-    addMessage({
-      role: "assistant",
-      content: data.reply,
-    });
+      const aiMessage = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: response.summary,
+        sql: response.generated_sql,
+        table: response.data,
+      };
+
+      addMessage(aiMessage);
+    } catch {
+      addMessage({
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: "Something went wrong while processing your request.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
-
-  if (!activeSession) {
-    return (
-      <div className="flex items-center justify-center h-full text-muted-foreground">
-        Create or select a chat
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col h-full">
-      <ChatHeader />
-      <ChatMessages messages={activeSession.messages} />
-      <ChatInput onSend={sendMessage} />
+      <ChatMessages />
+
+      <ChatInput onSend={handleSend} loading={loading} />
     </div>
   );
 }
