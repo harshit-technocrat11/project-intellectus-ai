@@ -1,38 +1,69 @@
-app/
+backend/
 │
-├── api/
-│   ├── routes/
-│   │   ├── chat.py
-│   │   ├── query.py
-│   │   └── health.py
+├── app/
+│   ├── main.py
 │
-├── core/
-│   ├── config.py
-│   ├── database.py
-│   ├── llm_client.py
+│   ├── api/
+│   │   └── routes/
+│   │       └── chat.py
 │
-├── copilot/
-│   ├── orchestrator.py
-│   ├── router.py
+│   ├── core/                      # infra layer
+│   │   ├── config.py
+│   │   ├── llm.py
+│   │   ├── embeddings.py
+│   │   ├── vectorstore.py
+│   │   └── logger.py
 │
-├── services/
-│   ├── sql/
-│   │   ├── generator.py
-│   │   ├── validator.py
-│   │   ├── executor.py
+│   ├── services/                  # business logic layer
 │   │
-│   ├── rag/         (future)
-│   │   ├── retriever.py
-│   │   ├── embedder.py
+│   │   ├── rag/
+│   │   │   ├── pipeline.py
+│   │   │   ├── retriever.py
+│   │   │   └── prompt.py
+│   │
+│   │   ├── ingestion/
+│   │   │   ├── loader.py
+│   │   │   ├── parser.py          # future (structure-aware)
+│   │   │   ├── chunker.py
+│   │   │   └── embedder.py
+│   │
+│   │   ├── sql/
+│   │   │   ├── engine.py
+│   │   │   └── prompt.py
+│   │
+│   │   ├── router/
+│   │   │   └── classifier.py
+│   │
+│   │   ├── agent/
+│   │   │   └── workflow.py
+│   │
+│   │   ├── evaluation/
+│   │   │   └── evaluator.py
+│   │
+│   │   └── observability/
+│   │       ├── logger.py
+│       │   └── tracing.py
 │
-├── schemas/
-│   ├── chat.py
-│   ├── query.py
+│   ├── schemas/                   # contracts (VERY IMPORTANT)
+│   │   ├── chat.py
+│   │   ├── rag.py
+│   │   └── sql.py
 │
-├── db/models/          (DB ORM)
+│   ├── db/
+│   │   └── session.py
 │
-├── monitoring/      (future)
-│   ├── metrics.py
-│   ├── logger.py
+│   └── utils/
+│       └── helpers.py
 │
-└── main.py
+├── scripts/
+│   └── ingest.py
+│
+├── workers/
+│   └── celery_worker.py
+│
+├── data/
+│   └── raw/
+│
+├── .env
+├── requirements.txt
+└── README.md
