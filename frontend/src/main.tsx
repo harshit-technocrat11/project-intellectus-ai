@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard.tsx";
-import Copilot from "./pages/Copilot.tsx";
-import Logs from "./pages/Logs.tsx";
+import Copilot from "./pages/ChatCopilot.tsx";
+import Logs from "./pages/AILogs.tsx";
 import AppLayout from "./app/layout/AppLayout.tsx";
 import "./index.css";
 
