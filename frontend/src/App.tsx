@@ -1,13 +1,25 @@
-import Dashboard from "./pages/Dashboard";
-import Copilot from "./pages/ChatCopilot";
-import { Route } from "react-router-dom";
-import { BrowserRouter } from "react-router-dom";
-import { Routes } from "react-router-dom";
-import AppLayout from "./app/layout/AppLayout";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import MainLayout from "./components/layout/MainLayout";
+import ChatCopilot from "./pages/CopilotChat";
 import Logs from "./pages/AILogs";
+// import Dashboard from "./pages/Dashboard";
+// import KnowledgeInventory from "./pages/KnowledgeInventory";
 
-function App() {
-  return <h1>hi</h1>;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Navigate to="/copilot" replace />} />
+
+          <Route path="/copilot" element={<ChatCopilot />} />
+          <Route path="/logs" element={<Logs />} />
+
+          {/* Placeholders for the remaining pages */}
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          {/* <Route path="/inventory" element={<KnowledgeInventory />} /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App;

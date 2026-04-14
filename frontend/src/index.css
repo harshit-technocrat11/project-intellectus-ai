@@ -3,7 +3,58 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+@theme inline {
+  --color-primary-navy: var(--primary-navy);
+  --color-primary-navy-muted: var(--primary-navy-muted);
+  --color-secondary-teal: var(--secondary-teal);
+  --color-secondary-teal-light: var(--secondary-teal-light);
+  --color-accent-green: var(--accent-green);
+  --color-accent-green-light: var(--accent-green-light);
+  --color-border-subtle: var(--border-subtle);
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --radius-md: 0.5rem;
+}
 
+:root {
+  /* PROFESSIONAL MONO THEME HEX CODES */
+  --primary-navy: #1E3A5F;
+  --primary-navy-muted: rgba(30, 58, 95, 0.8);
+  --secondary-teal: #0D9488;
+  --secondary-teal-light: rgba(13, 148, 136, 0.1);
+  --accent-green: #10B981;
+  --accent-green-light: rgba(16, 185, 129, 0.1);
+  --border-subtle: #E2E8F0;
+  --primary-navy: #1E3A5F;
+  --primary-navy-light: #F1F5F9; /* For light hover states */
+  --secondary-teal: #0D9488;
+  --secondary-teal-muted: #F0FDFA; /* For "New Chat" button background */
+  --border-subtle: #E2E8F0;
+
+  /* BASE SHADCN OVERRIDES */
+  --background: #F8FAFC;
+  --foreground: #1E293B;
+  --primary: var(--primary-navy);
+  --primary-foreground: #ffffff;
+  --secondary: var(--secondary-teal);
+  --secondary-foreground: #ffffff;
+  --border: var(--border-subtle);
+  --ring: var(--secondary-teal);
+}
+
+.panel-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
