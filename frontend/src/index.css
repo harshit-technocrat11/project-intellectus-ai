@@ -4,21 +4,18 @@
 
 @custom-variant dark (&:is(.dark *));
 @theme inline {
-  --color-primary-navy: var(--primary-navy);
-  --color-primary-navy-muted: var(--primary-navy-muted);
-  --color-secondary-teal: var(--secondary-teal);
-  --color-secondary-teal-light: var(--secondary-teal-light);
-  --color-accent-green: var(--accent-green);
-  --color-accent-green-light: var(--accent-green-light);
-  --color-border-subtle: var(--border-subtle);
-  
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --radius-md: 0.5rem;
+ --color-primary-navy: #1E3A5F;
+  --color-secondary-teal: #0D9488;
+  --color-accent-green: #10B981;
+  --color-border-subtle: #E2E8F0;
+  --color-background: #F8FAFC;
 }
 
 :root {
   /* PROFESSIONAL MONO THEME HEX CODES */
+  background-color: var(--color-background);
+  color: #1E293B;
+  font-family: 'Inter', system-ui, sans-serif;
   --primary-navy: #1E3A5F;
   --primary-navy-muted: rgba(30, 58, 95, 0.8);
   --secondary-teal: #0D9488;
@@ -47,7 +44,8 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 body {
-  margin: 0;
+  margin: 0; 
+  overflow: hidden;
   min-height: 100vh;
   background-color: var(--background);
   color: var(--foreground);
