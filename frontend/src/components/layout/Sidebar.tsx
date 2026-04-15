@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useChatStore } from "../../store/chatStore";
+import { useChatStore } from "../../store/useChatStore";
 import { Tooltip, IconButton } from "@mui/material";
 import {
   DashboardRounded,
