@@ -16,7 +16,7 @@ export default function ChatArea({
   return (
     <div className="flex-1 flex flex-col h-full bg-background relative overflow-hidden">
       {/* Header */}
-      <div className="h-[60px] border-b border-border-subtle flex items-center justify-between px-6 bg-white shrink-0">
+      <div className="h-15 border-b border-border-subtle flex items-center justify-between px-6 bg-white shrink-0">
         <h2 className="font-semibold text-slate-800 text-sm">
           Q3 Revenue Deep Dive
         </h2>
@@ -120,7 +120,7 @@ export default function ChatArea({
 
           <textarea
             placeholder="Ask Intellectus..."
-            className="flex-1 bg-transparent border-none focus:ring-0 resize-none max-h-32 min-h-[40px] py-3 text-sm text-slate-700 outline-none"
+            className="flex-1 bg-transparent border-none focus:ring-0 resize-none max-h-32 min-h-10 py-3 text-sm text-slate-700 outline-none"
             rows={1}
           />
 

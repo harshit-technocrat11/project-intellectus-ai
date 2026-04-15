@@ -1,3 +1,9 @@
-export default function Logs() {
-  return <div className="bg-white border rounded-xl p-6">Logs Content</div>;
+import React from 'react'
+
+function AILogs() {
+  return (
+    <div>AILogs</div>
+  )
 }
+
+export default AILogs

@@ -19,49 +19,43 @@ export default function ChatHistory() {
     deleteChat,
     renameChat,
   } = useChatStore();
+
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // Auto-focus the input field when editing starts
   useEffect(() => {
     if (editingId && inputRef.current) inputRef.current.focus();
   }, [editingId]);
 
   return (
-    <div className="w-72 bg-white border-r border-border-subtle flex flex-col h-full shrink-0 z-10">
-      {/* Top Actions */}
-      <div className="p-4 space-y-4 border-b border-slate-100 bg-white shrink-0">
-        {/* Dark Navy "New Chat" Button */}
+    <div className="w-80 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
+      {/* TOP */}
+      <div className="p-4 space-y-3 border-b border-slate-100">
         <button
           onClick={addChat}
-          className="w-full bg-primary-navy hover:bg-[#152a45] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 font-semibold text-sm transition-colors shadow-sm cursor-pointer"
+          className="w-full bg-primary-navy hover:bg-[#1e3a5f] text-white rounded-lg py-2.5 flex items-center justify-center gap-2 font-semibold text-sm transition"
         >
           <AddRounded fontSize="small" />
-          <span>New Chat</span>
+          New Chat
         </button>
 
-        {/* Search Bar */}
-        <div className="relative flex items-center">
-          <SearchRounded
-            fontSize="small"
-            className="absolute left-3 text-slate-400"
-          />
+        <div className="relative">
+          <SearchRounded className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
-            type="text"
             placeholder="Search sessions..."
-            className="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-1 focus:ring-secondary-teal transition-all placeholder:text-slate-400 outline-none"
+            className="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-1 focus:ring-secondary-teal"
           />
         </div>
       </div>
 
-      {/* Chat List - Clean List View */}
-      <div className="flex-1 overflow-y-auto pt-4 pb-2">
-        <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-5">
+      {/* LIST */}
+      <div className="flex-1 overflow-y-auto pt-3 pb-2">
+        <h3 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-2 px-6">
           All Chats
         </h3>
 
-        <ul className="flex flex-col">
+        <ul className="flex flex-col gap-1 px-3">
           {chats.map((chat) => {
             const isActive = chat.id === activeChatId;
             const isEditing = chat.id === editingId;
@@ -69,11 +63,7 @@ export default function ChatHistory() {
             return (
               <li key={chat.id} className="relative group">
                 {isEditing ? (
-                  // Edit Mode
-                  <div
-                    className="flex items-center gap-1 w-full bg-white px-4 py-2"
-                    onClick={(e) => e.stopPropagation()}
-                  >
+                  <div className="flex items-center gap-1 px-4 py-2">
                     <input
                       ref={inputRef}
                       value={editTitle}
@@ -84,8 +74,9 @@ export default function ChatHistory() {
                           setEditingId(null);
                         }
                       }}
-                      className="flex-1 bg-slate-50 border border-secondary-teal rounded px-2 py-1 text-sm text-primary-navy outline-none"
+                      className="flex-1 bg-slate-50 border border-secondary-teal rounded px-2 py-1 text-sm outline-none"
                     />
+
                     <IconButton
                       size="small"
                       onClick={() => {
@@ -96,6 +87,7 @@ export default function ChatHistory() {
                     >
                       <CheckRounded sx={{ fontSize: 16 }} />
                     </IconButton>
+
                     <IconButton
                       size="small"
                       onClick={() => setEditingId(null)}
@@ -105,26 +97,31 @@ export default function ChatHistory() {
                     </IconButton>
                   </div>
                 ) : (
-                  // Display Mode
                   <button
                     onClick={() => setActiveChat(chat.id)}
-                    className={`w-full text-left py-2.5 px-4 flex flex-col gap-0.5 transition-colors cursor-pointer border-l-[3px] ${
-                      isActive
-                        ? "border-secondary-teal bg-secondary-teal/5"
-                        : "border-transparent hover:bg-slate-50"
-                    }`}
+                    className={`w-full text-left px-4 py-2 rounded-lg flex flex-col gap-0.5 transition-all duration-150
+                      ${
+                        isActive
+                          ? "bg-slate-100 text-slate-900"
+                          : "hover:bg-slate-50 text-slate-700"
+                      }`}
                   >
                     <span
-                      className={`text-sm truncate w-full pr-12 ${isActive ? "text-primary-navy font-semibold" : "text-slate-700 font-medium"}`}
+                      className={`text-sm truncate pr-12 ${
+                        isActive
+                          ? "font-semibold text-slate-900"
+                          : "text-slate-700"
+                      }`}
                     >
                       {chat.title}
                     </span>
-                    <span className="text-[11px] text-slate-400">
+
+                    <span className="text-[11px] text-slate-400 mt-[2px]">
                       {chat.time}
                     </span>
 
-                    {/* Hover Actions (Rename/Delete) */}
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center bg-white/90 backdrop-blur-sm rounded shadow-sm border border-slate-200 p-0.5">
+                    {/* ACTIONS */}
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition flex items-center bg-white rounded-md shadow-sm border border-slate-200 p-0.5">
                       <IconButton
                         size="small"
                         onClick={(e) => {
@@ -135,6 +132,7 @@ export default function ChatHistory() {
                       >
                         <EditRounded sx={{ fontSize: 14 }} />
                       </IconButton>
+
                       <IconButton
                         size="small"
                         onClick={(e) => {
