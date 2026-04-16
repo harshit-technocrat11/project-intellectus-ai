@@ -35,6 +35,7 @@ interface ChatStore {
   addMessage: (chatId: string, message: Omit<Message, "id" | "time">) => void;
   setActiveMessage: (id: string | null) => void;
   clearMessages: (chatId: string) => void;
+  updateLastMessage: (chatId: string, contentChunk: string) => void;
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -117,6 +118,22 @@ export const useChatStore = create<ChatStore>((set) => ({
     set((state) => ({
       chats: state.chats.map((c) =>
         c.id === id ? { ...c, title: newTitle } : c,
+      ),
+    })),
+
+  updateLastMessage: (chatId, contentChunk) =>
+    set((state) => ({
+      chats: state.chats.map((chat) =>
+        chat.id === chatId
+          ? {
+              ...chat,
+              messages: chat.messages.map((msg, index) =>
+                index === chat.messages.length - 1
+                  ? { ...msg, content: msg.content + contentChunk }
+                  : msg,
+              ),
+            }
+          : chat,
       ),
     })),
 }));
