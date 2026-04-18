@@ -1,31 +1,24 @@
-# from sqlalchemy.ext.asyncio import (
-#     AsyncSession,
-#     create_async_engine,
-#     async_sessionmaker
-# )
-# from sqlalchemy.orm import declarative_base
-# from typing import AsyncGenerator
-# import os
+import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
+from dotenv import load_dotenv
 
-# DATABASE_URL = os.getenv("DATABASE_URL")
-# if ( DATABASE_URL): 
-#     print( "database url is fine !")
-# # Format:
-# # postgresql+asyncpg://user:password@host:port/dbname
+load_dotenv()
 
-# engine = create_async_engine(
-#     DATABASE_URL,
-#     echo=True
-# )
+# temporary - connection
 
-# AsyncSessionLocal = async_sessionmaker(
-#     bind=engine,
-#     expire_on_commit=False
-# )
-
-# Base = declarative_base()
-
-
-# async def get_db() -> AsyncGenerator[AsyncSession, None]:
-#     async with AsyncSessionLocal() as session:
-#         yield session
+def get_tenant_connection(tenant_name="Dexter Corp Pvt Ltd"):
+    """Fetches the Supabase connection string from the Neon Control Plane."""
+    try:
+        conn = psycopg2.connect(os.getenv("INTELLECTUS_DB_URL"))
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+          
+            query = "SELECT connection_url FROM connectors WHERE source_name = %s LIMIT 1;"
+            cur.execute(query, (tenant_name,))
+            result = cur.fetchone()
+            return result['connection_url'] if result else None
+    except Exception as e:
+        print(f"Neon Lookup Error: {e}")
+        return None
+    finally:
+        if 'conn' in locals(): conn.close()
