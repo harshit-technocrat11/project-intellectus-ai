@@ -1,7 +1,11 @@
-import os
+from pydantic_settings import BaseSettings
 
-from dotenv import load_dotenv
+class Settings(BaseSettings):
+    CLERK_ISSUER_URL : str
+    NEON_DATABASE_URL: str
 
-load_dotenv()
+    class Config:
+        env_file= ".env"
 
-DATABASE_URL = os.getenv("PG_URI")
+settings = Settings()
+
