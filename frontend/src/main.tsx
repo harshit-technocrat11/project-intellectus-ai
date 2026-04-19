@@ -1,10 +1,21 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import "./index.css"; // CRITICAL: This loads the Tailwind v4 Professional Mono theme
+import "./index.css"; 
+import { ClerkProvider } from "@clerk/clerk-react";
+
+// clerk
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if ( !PUBLISHABLE_KEY){ 
+  throw new  Error( 'Missin publishable key !!');
+}
+
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+      <App />
+    </ClerkProvider>
   </StrictMode>,
 );
