@@ -8,7 +8,7 @@ security = HTTPBearer()
 
 JWKS_URL = f"{settings.CLERK_ISSUER_URL}/.well-known/jwks.json"
 
-async def get_current_user_id(res: HTTPAuthorizationCredentials = Depends(security)):
+async def get_user_clerk_id(res: HTTPAuthorizationCredentials = Depends(security)):
     token = res.credentials
     try:
         #JWKs clerk;s key 

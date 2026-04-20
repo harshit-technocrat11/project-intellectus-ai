@@ -1,36 +1,21 @@
 import psycopg2
-from mcp.server.fastmcp import FastMCP
-# 
+from sqlalchemy import text
 
-# TESTING 
-
-mcp = FastMCP("DB-Connector")
-
-@mcp.tool()
-def query_tenant_db(sql_query: str, db_url: str) -> str:
+async def query_tenant_db(sql_query: str, tenant_id: int, db_session):
     """
-    Executes a read-only SQL query against a tenant's specific database.
-    Args:
-        sql_query: The SQL SELECT statement to execute.
-        db_url: The connection string for the tenant's database.
+    Looks up the connector URL for the specific tenant and executes SQL.
     """
-    # Safety check: Force read-only
-    if not sql_query.strip().upper().startswith("SELECT"):
-        return "Error: Only SELECT queries are allowed for security."
-
+    # 1. look up for url
+    query = text("SELECT connection_url FROM connectors WHERE tenant_id = :tid AND type = 'supabase'")
+    connector_url = (await db_session.execute(query, {"tid": tenant_id})).scalar()
+    
+    # 2. Connection and Execution
     try:
-        conn = psycopg2.connect(db_url)
+        conn = psycopg2.connect(connector_url)
         with conn.cursor() as cur:
             cur.execute(sql_query)
-            columns = [desc[0] for desc in cur.description]
-            results = [dict(zip(columns, row)) for row in cur.fetchall()]
-            
-            if not results:
-                return "Query executed successfully. No rows returned."
-                
-            return str(results)
+            return str(cur.fetchall())
     except Exception as e:
         return f"Database Error: {str(e)}"
     finally:
-        if 'conn' in locals(): 
-            conn.close()
+        if 'conn' in locals(): conn.close()

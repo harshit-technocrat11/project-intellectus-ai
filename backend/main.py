@@ -1,26 +1,31 @@
-from dotenv import load_dotenv
 import uvicorn
-from fastapi import Depends
-from app.auth.auth import get_current_user_id
+from contextlib import asynccontextmanager
+from dotenv import load_dotenv
+
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
+# Internal imports
+from app.auth.context import get_tenant_id
+from app.db.session import engine, get_db
+from app.auth.auth import get_user_clerk_id
+from app.api.routes import chat
 
 load_dotenv()
 
-from contextlib import asynccontextmanager
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("🚀 Connecting to Intellectus Neon DB...")
+    async with engine.begin() as conn:
+        await conn.execute(text("SELECT 1"))
+    yield
+    print("🛑 Closing DB connections...")
+    await engine.dispose()
 
-from app.db.models.base import Base
+app = FastAPI(lifespan=lifespan)
 
-from app.api.routes import  chat
-
-app = FastAPI()
-
-@app.get("/api/routes/")
-async def get_tenant_config( clerk_id: str = Depends( get_current_user_id)): 
-    return {"status": "authenticated", "clerk_id":clerk_id}
-
-
-
+# --- MIDDLEWARE ---
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -29,13 +34,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# protected middleware - for authentication
+# --- GLOBAL ROUTES ---
+
+app.get("/api/lookup")(get_tenant_id)
+
+
+# --- ROUTERS ---
 app.include_router(
     chat.router,
-    prefix="/api",
-    dependencies=[Depends(get_current_user_id)]
-    )
-
-
+    prefix="/api", 
+    dependencies=[Depends(get_user_clerk_id)]
+)
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

@@ -1,13 +1,2 @@
-import os
-from openai import OpenAI
-from dotenv import load_dotenv
-
-
-load_dotenv()
-
-api_key = os.getenv("OPENAI_API_KEY")
-
-if not api_key:
-    raise ValueError("OPENAI_API_KEY not found in env")
-
-client = OpenAI(api_key=api_key)
+from fastapi import APIRouter , Depends
+from app.auth.auth import get_user_clerk_id

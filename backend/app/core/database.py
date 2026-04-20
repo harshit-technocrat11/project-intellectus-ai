@@ -1,24 +1,24 @@
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import declarative_base
 import os
-import psycopg2
-from psycopg2.extras import RealDictCursor
-from dotenv import load_dotenv
+from app.core.config import settings
 
-load_dotenv()
+# making an Async connection 
+DATABASE_URL = settings.INTELLECTUS_DB_URL.replace("sslmode=require", "ssl=true")
 
-# temporary - connection
+if "postgresql+asyncpg://" not in DATABASE_URL:
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
 
-def get_tenant_connection(tenant_name="Dexter Corp Pvt Ltd"):
-    """Fetches the Supabase connection string from the Neon Control Plane."""
-    try:
-        conn = psycopg2.connect(os.getenv("INTELLECTUS_DB_URL"))
-        with conn.cursor(cursor_factory=RealDictCursor) as cur:
-          
-            query = "SELECT connection_url FROM connectors WHERE source_name = %s LIMIT 1;"
-            cur.execute(query, (tenant_name,))
-            result = cur.fetchone()
-            return result['connection_url'] if result else None
-    except Exception as e:
-        print(f"Neon Lookup Error: {e}")
-        return None
-    finally:
-        if 'conn' in locals(): conn.close()
+engine = create_async_engine(DATABASE_URL,pool_pre_ping=True, echo=False)
+
+AsyncSessionLocal=  async_sessionmaker(
+    bind= engine, 
+    class_= AsyncSession, 
+    expire_on_commit=False
+
+)
+
+# instance of intellectus NEON
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session
