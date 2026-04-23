@@ -13,8 +13,22 @@ import KnowledgeInventory from "./pages/KnowledgeInventory";
 import { AuthRoute } from "./services/AuthRoute";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUp";
+import { useAuth } from "@clerk/clerk-react";
+import { useEffect } from "react";
+import { setupInterceptors } from "./api/apiClient";
+
+
 
 export default function App() {
+  const { getToken, isLoaded} =  useAuth();
+
+  useEffect(()=> {
+    if ( isLoaded){
+      setupInterceptors(getToken);
+    }
+  }, [isLoaded, getToken]);
+
+
   return (
     <BrowserRouter>
       <Routes>

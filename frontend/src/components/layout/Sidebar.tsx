@@ -2,12 +2,15 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useChatStore } from "../../store/useChatStore";
 import { Tooltip, IconButton } from "@mui/material";
+import { SignOutButton, UserButton } from "@clerk/clerk-react";
+
 import {
   DashboardRounded,
   ChatBubbleOutlineRounded,
   StorageRounded,
   QueryStatsRounded,
   SettingsOutlined,
+  LogoutOutlined,
   TokenRounded,
   MenuOpenRounded,
   AddRounded,
@@ -126,12 +129,23 @@ export default function Sidebar() {
 
       {/* FOOTER */}
       <div className="p-4 border-t border-white/5 bg-black/20">
+        {/* Profile Section */}
         <div
           className={`flex items-center gap-3 ${isCollapsed ? "justify-center" : ""}`}
         >
-          <div className="w-9 h-9 shrink-0 rounded-xl bg-teal-500 flex items-center justify-center font-black text-xs text-[#0f172a] shadow-lg">
-            DC
+          {/* Clerk User Button replaces your static "DC" circle if you want the user's actual avatar */}
+          <div className="shrink-0">
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  userButtonAvatarBox:
+                    "w-9 h-9 rounded-xl shadow-lg border border-white/10",
+                },
+              }}
+            />
           </div>
+
           {!isCollapsed && (
             <div className="flex flex-col min-w-0">
               <span className="text-[11px] font-black truncate text-white uppercase tracking-tighter">
@@ -145,8 +159,9 @@ export default function Sidebar() {
           )}
         </div>
 
+        {/* Settings Button */}
         <button
-          className={`flex items-center text-slate-500 hover:text-white mt-5 transition-colors w-full ${isCollapsed ? "justify-center" : "px-1 gap-4"}`}
+          className={`flex items-center text-slate-400 hover:text-white mt-5 transition-colors w-full ${isCollapsed ? "justify-center" : "px-1 gap-4"}`}
         >
           <SettingsOutlined
             sx={{ fontSize: 20 }}
@@ -158,6 +173,20 @@ export default function Sidebar() {
             </span>
           )}
         </button>
+
+        {/* Manual Logout Button */}
+        <SignOutButton>
+          <button
+            className={`flex items-center text-slate-400 hover:text-red-400 mt-3 transition-colors w-full ${isCollapsed ? "justify-center" : "px-1 gap-4"}`}
+          >
+            <LogoutOutlined sx={{ fontSize: 20 }} />
+            {!isCollapsed && (
+              <span className="text-[11px] font-bold uppercase tracking-wider">
+                Log Out
+              </span>
+            )}
+          </button>
+        </SignOutButton>
       </div>
     </aside>
   );

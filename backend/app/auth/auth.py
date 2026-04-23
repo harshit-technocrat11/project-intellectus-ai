@@ -30,7 +30,8 @@ async def get_user_clerk_id(res: HTTPAuthorizationCredentials = Depends(security
         clerk_id = payload.get("sub")
         if not clerk_id:
             raise HTTPException(status_code=401, detail="Invalid token: sub missing")
-            
+        
+        print("user logged in successfully ", clerk_id)
         return clerk_id
 
     except Exception as e:
