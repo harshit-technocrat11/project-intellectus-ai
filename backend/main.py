@@ -23,7 +23,7 @@ async def lifespan(app: FastAPI):
     print("🛑 Closing DB connections...")
     await engine.dispose()
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(title="Intellectus AI",lifespan=lifespan)
 
 # --- MIDDLEWARE ---
 app.add_middleware(
@@ -35,9 +35,7 @@ app.add_middleware(
 )
 
 # --- GLOBAL ROUTES ---
-
 app.get("/api/lookup")(get_tenant_id)
-
 
 # --- ROUTERS ---
 app.include_router(
