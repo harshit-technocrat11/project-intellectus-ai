@@ -20,10 +20,10 @@ export const ChatArea = ({ onToggleSources }: ChatAreaProps) => {
   const activeChat = chats.find((c) => c.id === activeChatId);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Initialize our Global Proxy [cite: 777, 781]
+
   const { authenticatedStream } = useStreamClient();
 
-  // Auto-scroll logic: Anchors view during real-time streaming
+  
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({
@@ -39,7 +39,7 @@ export const ChatArea = ({ onToggleSources }: ChatAreaProps) => {
     const userQuery = input;
     setInput("");
 
-    // UI Optimistic Update
+
     addMessage(activeChatId, { role: "user", content: userQuery });
     addMessage(activeChatId, { role: "assistant", content: "" });
 
@@ -64,7 +64,7 @@ export const ChatArea = ({ onToggleSources }: ChatAreaProps) => {
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
 
-        // Updates Zustand for the typewriter effect [cite: 544]
+      
         updateLastMessage(activeChatId, chunk);
       }
     } catch (error) {
