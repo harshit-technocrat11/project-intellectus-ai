@@ -6,12 +6,12 @@ from typing import Dict, List, Any
 from sqlalchemy import create_engine, text
 from tavily import TavilyClient
 import logging
-
+ 
 load_dotenv();
 
 # Initialize the Universal Specialist Hub
 mcp = FastMCP("Intellectus-Specialist-Hub")
-
+ 
 tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
 logging.basicConfig(level=logging.INFO)
