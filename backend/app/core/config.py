@@ -4,6 +4,7 @@ class Settings(BaseSettings):
     CLERK_ISSUER_URL: str
     OPENAI_API_KEY: str
     INTELLECTUS_DB_URL: str 
+    TAVILY_API_KEY: str
     
     model_config = SettingsConfigDict(
         env_file=".env", 

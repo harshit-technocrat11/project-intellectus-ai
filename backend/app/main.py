@@ -8,7 +8,7 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 # Internal imports
 from app.auth.context import get_tenant_id
-from app.db.session import engine, get_db
+from app.db.database import get_db , engine
 from app.auth.auth import get_user_clerk_id
 from app.api.routes import chat
 

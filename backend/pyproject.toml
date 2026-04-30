@@ -6,8 +6,10 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "asyncpg>=0.31.0",
+    "bs4>=0.0.2",
     "faker>=40.5.1",
     "fastapi>=0.133.0",
+    "fastapi-mcp>=0.4.0",
     "fastmcp>=3.2.4",
     "httpx>=0.28.1",
     "langchain>=1.2.15",
@@ -22,7 +24,9 @@ dependencies = [
     "pydantic-settings>=2.13.1",
     "python-dotenv>=1.2.1",
     "python-jose[cryptography]>=3.5.0",
+    "sqlacodegen>=4.0.3",
     "sqlalchemy[asyncio]>=2.0.47",
+    "tavily>=1.1.0",
     "tqdm>=4.67.3",
     "uvicorn>=0.41.0",
 ]

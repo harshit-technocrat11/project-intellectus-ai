@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException, status
 from app.auth.auth import get_user_clerk_id # Your JWT extractor
-from app.db.session import get_db
+from app.db.database import get_db
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
