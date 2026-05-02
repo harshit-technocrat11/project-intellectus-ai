@@ -11,6 +11,8 @@ from app.auth.context import get_tenant_id
 from app.db.database import get_db , engine
 from app.auth.auth import get_user_clerk_id
 from app.api.routes import chat
+from app.tools.database_tool import list_databases, get_schema, execute_sql
+from app.mcp_server import mcp
 
 load_dotenv()
 
@@ -43,5 +45,14 @@ app.include_router(
     prefix="/api", 
     dependencies=[Depends(get_user_clerk_id)]
 )
+
+# mcp routes
+app.include_router(list_databases.router)
+app.include_router(execute_sql.router)
+app.include_router(get_schema.router)
+
+# mounting MCP server
+app.mount("/mcp",mcp)
+
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

@@ -20,10 +20,8 @@ export const ChatArea = ({ onToggleSources }: ChatAreaProps) => {
   const activeChat = chats.find((c) => c.id === activeChatId);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-
   const { authenticatedStream } = useStreamClient();
 
-  
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({
@@ -39,22 +37,19 @@ export const ChatArea = ({ onToggleSources }: ChatAreaProps) => {
     const userQuery = input;
     setInput("");
 
-
     addMessage(activeChatId, { role: "user", content: userQuery });
     addMessage(activeChatId, { role: "assistant", content: "" });
 
     try {
-      
-      const stream = await authenticatedStream("/api/chat", {
-        messages: [
-          ...(activeChat?.messages || []).map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
-          { role: "user", content: userQuery },
-        ],
-      });
-
+     const stream = await authenticatedStream("/api/chat", {
+       thread_id: activeChatId, // ✅ REQUIRED FIX
+       messages: [
+         {
+           role: "user",
+           content: userQuery,
+         },
+       ],
+     });
       if (!stream) return;
       const reader = stream.getReader();
       const decoder = new TextDecoder();
@@ -64,7 +59,6 @@ export const ChatArea = ({ onToggleSources }: ChatAreaProps) => {
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
 
-      
         updateLastMessage(activeChatId, chunk);
       }
     } catch (error) {
