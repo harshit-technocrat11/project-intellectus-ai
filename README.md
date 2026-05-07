@@ -31,7 +31,7 @@ The project explores how agentic AI systems can securely reason over internal kn
 - PostgreSQL
 - Vector Databases
 - Python
-- 
+  
 ---
 
 ## Current Status
